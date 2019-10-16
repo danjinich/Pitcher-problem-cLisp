@@ -45,12 +45,13 @@ It returns a series of numbers which make reference to some instructions.
       (LIST (LIST (- (CAR LS) (- Y (CADR LS))) Y) (+ 6 (SECOND (CAR (LAST ABIERTO)))) P (+ 1 P2) 6))))
 
 (DEFUN ADD-TO-END (OBJ LST)
+  "Adds OBJ to the end of the list LST"
   (COND
     ((NULL LST) (LIST OBJ))
     (T (PUSH OBJ (CDR (LAST LST))) LST)))
 
-;(SITUACION NUMERO PADRE PROFUNDIDAD OPERACION)
 (DEFUN SOLVE-PITCHERS (X1 Y1 N1)
+  "Pitcher problem: main function"
   (SETQ X X1 Y Y1 N N1 ABIERTO NIL CERRADO NIL R NIL)
   (IF(INTEGERP (/ N (GCD X Y))) ;GCD=GREATEST COMMON DIVISOR
     (PROGN (PUSH '(NIL 0 0 0 NIL) ABIERTO)
@@ -70,6 +71,7 @@ It returns a series of numbers which make reference to some instructions.
         (SOLVE-PITCHERS-AUX)))))
 
 (DEFUN EXPAND (LST)
+  "Pitcher problem: applies everey function to the LST state"
   (SETQ LS (FIRST LST) P (SECOND LST) P2 (FOURTH LST))
   (SETQ AUX (LIST
     (FILL-X) (FILL-Y) (EMPTY-X) (EMPTY-Y) (PASS-YX) (PASS-XY)))
@@ -88,10 +90,12 @@ It returns a series of numbers which make reference to some instructions.
         (EVALUAR)))))
 
 (DEFUN NOT-IN ()
+  "Pitcher problem: checks if AUX1 (global object) alredy exists"
   (OR (NULL (MEMBER (FIRST AUX1) (MAPCAR #'FIRST ABIERTO) :test #'equal))
     (NULL (MEMBER (FIRST AUX1) (MAPCAR #'FIRST CERRADO) :test #'equal))))
 
 (DEFUN RWGRESO (LST)
+  "Pitcher problem: checks and returns the best state"
   (IF (NOT (EQ (SECOND LST) 0))
     (PROGN (PUSH (FIFTH LST) R)
     (LOOP
